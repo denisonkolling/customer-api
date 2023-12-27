@@ -1,10 +1,12 @@
 package com.example.customerapi.service.impl;
 
 import com.example.customerapi.model.Customer;
+import com.example.customerapi.model.CustomerRegistrationRequest;
 import com.example.customerapi.repository.CustomerRepository;
 import com.example.customerapi.service.CustomerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -32,7 +37,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void insertCustomer(Customer customer) {
+    public void insertCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
+
+        Customer customer = new Customer(
+                customerRegistrationRequest.name(),
+                customerRegistrationRequest.email(),
+                passwordEncoder.encode(customerRegistrationRequest.password()),
+                customerRegistrationRequest.age(),
+                customerRegistrationRequest.gender());
+
         customerRepository.save(customer);
     }
 
@@ -52,12 +65,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public void updateCustomer(Integer customerId, Customer update) {
+        
+    }
+
+    @Override
     public void updateCustomer(Customer update) {
         customerRepository.save(update);
     }
 
     @Override
-    public Optional<Customer> selectUserByEmail(String email) {
+    public Customer selectUserByEmail(String email) {
         return customerRepository.findCustomerByEmail(email);
     }
 

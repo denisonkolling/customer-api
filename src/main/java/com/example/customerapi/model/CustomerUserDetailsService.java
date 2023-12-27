@@ -15,16 +15,10 @@ public class CustomerUserDetailsService implements UserDetailsService {
         this.customerService = customerService;
     }
 
-//    public CustomerUserDetailsService(@Qualifier("jpa") CustomerDao customerDao) {
-//        this.customerDao = customerDao;
-//    }
-
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        return customerService.selectUserByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(
-                        "Username " + username + " not found"));
+        return customerService.selectUserByEmail(username);
     }
 
 }
