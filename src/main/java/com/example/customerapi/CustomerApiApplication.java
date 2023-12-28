@@ -20,28 +20,28 @@ public class CustomerApiApplication {
         SpringApplication.run(CustomerApiApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner runner(
-            CustomerRepository customerRepository,
-            PasswordEncoder passwordEncoder) {
-        return args -> {
-            var faker = new Faker();
-            Random random = new Random();
-            Name name = faker.name();
-            String firstName = name.firstName();
-            String lastName = name.lastName();
-            int age = random.nextInt(16, 99);
-            Gender gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
-            String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@amigoscode.com";
-            Customer customer = new Customer(
-                    firstName +  " " + lastName,
-                    email,
-                    passwordEncoder.encode("password"),
-                    age,
-                    gender);
-            customerRepository.save(customer);
-            System.out.println(email);
-        };
-    }
+//    @Bean
+//    CommandLineRunner runner(
+//            CustomerRepository customerRepository,
+//            PasswordEncoder passwordEncoder) {
+//        return args -> {
+//            var faker = new Faker();
+//            Random random = new Random();
+//            Name name = faker.name();
+//            String firstName = name.firstName();
+//            String lastName = name.lastName();
+//            int age = random.nextInt(16, 99);
+//            Gender gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
+//            String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@amigoscode.com";
+//            Customer customer = new Customer(
+//                    firstName +  " " + lastName,
+//                    email,
+//                    passwordEncoder.encode("password"),
+//                    age,
+//                    gender);
+//            customerRepository.save(customer);
+//            System.out.println(email);
+//        };
+//    }
 
 }
