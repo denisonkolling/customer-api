@@ -1,5 +1,9 @@
 package com.example.customerapi.service.impl;
 
+import com.example.customerapi.dto.CustomerUpdateRequest;
+import com.example.customerapi.exception.DuplicateResourceException;
+import com.example.customerapi.exception.RequestValidationException;
+import com.example.customerapi.exception.ResourceNotFoundException;
 import com.example.customerapi.model.Customer;
 import com.example.customerapi.model.CustomerRegistrationRequest;
 import com.example.customerapi.repository.CustomerRepository;
@@ -65,8 +69,39 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomer(Integer customerId, Customer update) {
-        
+    public void updateCustomer(Integer customerId, CustomerUpdateRequest updateRequest) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "customer with id [%s] not found".formatted(customerId)
+                ));
+
+        boolean changes = false;
+
+        if (updateRequest.name() != null && !updateRequest.name().equals(customer.getName())) {
+            customer.setName(updateRequest.name());
+            changes = true;
+        }
+
+        if (updateRequest.age() != null && !updateRequest.age().equals(customer.getAge())) {
+            customer.setAge(updateRequest.age());
+            changes = true;
+        }
+
+        if (updateRequest.email() != null && !updateRequest.email().equals(customer.getEmail())) {
+            if (customerRepository.existsCustomerByEmail(updateRequest.email())) {
+                throw new DuplicateResourceException(
+                        "email already taken"
+                );
+            }
+            customer.setEmail(updateRequest.email());
+            changes = true;
+        }
+
+        if (!changes) {
+            throw new RequestValidationException("no data changes found");
+        }
+        customerRepository.save(customer);
+
     }
 
     @Override

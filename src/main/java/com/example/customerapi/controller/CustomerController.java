@@ -2,6 +2,7 @@ package com.example.customerapi.controller;
 
 
 import com.example.customerapi.dto.CustomerDTO;
+import com.example.customerapi.dto.CustomerUpdateRequest;
 import com.example.customerapi.jwt.JWTUtil;
 import com.example.customerapi.model.Customer;
 import com.example.customerapi.model.CustomerRegistrationRequest;
@@ -56,7 +57,7 @@ public class CustomerController {
     @PutMapping("{customerId}")
     public void updateCustomer(
             @PathVariable("customerId") Integer customerId,
-            @RequestBody Customer updateRequest) {
+            @RequestBody CustomerUpdateRequest updateRequest) {
         customerService.updateCustomer(customerId, updateRequest);
     }
 

@@ -1,5 +1,6 @@
 package com.example.customerapi.service;
 
+import com.example.customerapi.dto.CustomerUpdateRequest;
 import com.example.customerapi.model.Customer;
 import com.example.customerapi.model.CustomerRegistrationRequest;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public interface CustomerService {
     boolean existsCustomerWithEmail(String email);
     boolean existsCustomerById(Integer customerId);
     void deleteCustomerById(Integer customerId);
-    void updateCustomer(Integer customerId, Customer update);
+    void updateCustomer(Integer customerId, CustomerUpdateRequest update);
 
     void updateCustomer(Customer update);
 
