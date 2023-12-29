@@ -1,7 +1,5 @@
 package com.example.customerapi.controller;
 
-
-import com.example.customerapi.dto.CustomerDTO;
 import com.example.customerapi.dto.CustomerUpdateRequest;
 import com.example.customerapi.jwt.JWTUtil;
 import com.example.customerapi.model.Customer;
