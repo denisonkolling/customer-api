@@ -10,7 +10,7 @@ cors:
   exposed-headers: "*"
 
 aws:
-  region: US_WEST_2
+  region: us-east-1
 
 management:
   endpoints:
