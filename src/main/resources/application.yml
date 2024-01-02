@@ -35,3 +35,9 @@ spring:
     show-sql: true
   main:
     web-application-type: servlet
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  codec:
+    max-in-memory-size: 5MB
