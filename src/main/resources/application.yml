@@ -9,6 +9,9 @@ cors:
   allowed-headers: "*"
   exposed-headers: "*"
 
+aws:
+  region: US_WEST_2
+
 management:
   endpoints:
     web:
