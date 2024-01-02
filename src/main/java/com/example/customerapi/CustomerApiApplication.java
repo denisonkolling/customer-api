@@ -3,6 +3,7 @@ package com.example.customerapi;
 import com.example.customerapi.model.Customer;
 import com.example.customerapi.model.Gender;
 import com.example.customerapi.repository.CustomerRepository;
+import com.example.customerapi.s3.S3Buckets;
 import com.example.customerapi.s3.S3Service;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
@@ -25,22 +26,27 @@ public class CustomerApiApplication {
     CommandLineRunner runner(
             CustomerRepository customerRepository,
             PasswordEncoder passwordEncoder,
-            S3Service s3Service) {
+            S3Service s3Service,
+            S3Buckets s3Buckets) {
         return args -> {
 //            createRandomCustomer(customerRepository, passwordEncoder);
-            s3Service.putObject(
-                    "amigoscode-customer",
-                    "foo",
-                    "Hello World".getBytes()
-            );
-
-            byte[] object = s3Service.getObject(
-                    "amigoscode-customer",
-                    "foo"
-            );
-
-            System.out.println("Hooray:" + new String(object));
+//            testBucketUploadAndDownload(s3Service, s3Buckets);
         };
+    }
+
+    private static void testBucketUploadAndDownload(S3Service s3Service, S3Buckets s3Buckets) {
+        s3Service.putObject(
+                s3Buckets.getCustomer(),
+                "foo",
+                "Hello World".getBytes()
+        );
+
+        byte[] object = s3Service.getObject(
+                s3Buckets.getCustomer(),
+                "foo"
+        );
+
+        System.out.println("Hooray:" + new String(object));
     }
 
     private static void createRandomCustomer(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
