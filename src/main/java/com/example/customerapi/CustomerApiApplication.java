@@ -3,6 +3,7 @@ package com.example.customerapi;
 import com.example.customerapi.model.Customer;
 import com.example.customerapi.model.Gender;
 import com.example.customerapi.repository.CustomerRepository;
+import com.example.customerapi.s3.S3Service;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 import org.springframework.boot.CommandLineRunner;
@@ -20,28 +21,45 @@ public class CustomerApiApplication {
         SpringApplication.run(CustomerApiApplication.class, args);
     }
 
-//    @Bean
-//    CommandLineRunner runner(
-//            CustomerRepository customerRepository,
-//            PasswordEncoder passwordEncoder) {
-//        return args -> {
-//            var faker = new Faker();
-//            Random random = new Random();
-//            Name name = faker.name();
-//            String firstName = name.firstName();
-//            String lastName = name.lastName();
-//            int age = random.nextInt(16, 99);
-//            Gender gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
-//            String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@amigoscode.com";
-//            Customer customer = new Customer(
-//                    firstName +  " " + lastName,
-//                    email,
-//                    passwordEncoder.encode("password"),
-//                    age,
-//                    gender);
-//            customerRepository.save(customer);
-//            System.out.println(email);
-//        };
-//    }
+    @Bean
+    CommandLineRunner runner(
+            CustomerRepository customerRepository,
+            PasswordEncoder passwordEncoder,
+            S3Service s3Service) {
+        return args -> {
+//            createRandomCustomer(customerRepository, passwordEncoder);
+            s3Service.putObject(
+                    "amigoscode-customer",
+                    "foo",
+                    "Hello World".getBytes()
+            );
+
+            byte[] object = s3Service.getObject(
+                    "amigoscode-customer",
+                    "foo"
+            );
+
+            System.out.println("Hooray:" + new String(object));
+        };
+    }
+
+    private static void createRandomCustomer(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
+        var faker = new Faker();
+        Random random = new Random();
+        Name name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        int age = random.nextInt(16, 99);
+        Gender gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
+        String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@amigoscode.com";
+        Customer customer = new Customer(
+                firstName + " " + lastName,
+                email,
+                passwordEncoder.encode("password"),
+                age,
+                gender);
+        customerRepository.save(customer);
+        System.out.println(email);
+    }
 
 }
