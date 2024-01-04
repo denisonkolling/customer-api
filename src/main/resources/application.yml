@@ -23,9 +23,9 @@ management:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5332/customer
-    username: amigoscode
-    password: password
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
