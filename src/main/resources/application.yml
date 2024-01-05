@@ -19,13 +19,13 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,metrics"
+        include: "health,prometheus"
     enabled-by-default: false
   endpoint:
     health:
       enabled: true
       show-details: always
-    metrics:
+    prometheus:
       enabled: true
 
 spring:
@@ -40,6 +40,7 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+    open-in-view: false
   main:
     web-application-type: servlet
   servlet:
@@ -48,3 +49,4 @@ spring:
       max-request-size: 5MB
   codec:
     max-in-memory-size: 5MB
+debug: true

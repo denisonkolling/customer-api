@@ -1,22 +1,27 @@
-services:
-  db:
-    container_name: postgres
-    image: postgres:14.1
-    environment:
-      POSTGRES_USER: amigoscode
-      POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
-    volumes:
-      - db:/data/postgres
-    ports:
-      - "5332:5432"
-    networks:
-      - db
-    restart: unless-stopped
+version: '3.7'
 
 networks:
-  db:
+  aw-network:
     driver: bridge
 
 volumes:
-  db:
+  prometheus_data:
+  grafana_data:
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - aw-network
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana:latest
+    networks:
+      - aw-network
+    ports:
+      - 3000:3000

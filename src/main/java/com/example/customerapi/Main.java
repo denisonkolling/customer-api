@@ -53,9 +53,9 @@ public class Main {
         Name name = faker.name();
         String firstName = name.firstName();
         String lastName = name.lastName();
-        int age = random.nextInt(16, 99);
+        int age = random.nextInt(83) + 16;
         Gender gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
-        String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@amigoscode.com";
+        String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@email.com";
         Customer customer = new Customer(
                 firstName + " " + lastName,
                 email,
