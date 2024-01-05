@@ -19,7 +19,14 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,info"
+        include: "health,metrics"
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    metrics:
+      enabled: true
 
 spring:
   datasource:

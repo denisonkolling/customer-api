@@ -16,10 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Random;
 
 @SpringBootApplication
-public class CustomerApiApplication {
+public class Main {
 
     public static void main(String[] args) {
-        SpringApplication.run(CustomerApiApplication.class, args);
+        SpringApplication.run(Main.class, args);
     }
 
     @Bean
